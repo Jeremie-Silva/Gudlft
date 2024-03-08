@@ -1,0 +1,19 @@
+{
+    "tests/test_data": [
+        {
+            "name": "test_1",
+            "email": "test_1@test.com",
+            "points": "24"
+        },
+        {
+            "name": "test_2",
+            "email": "test_2@test.com",
+            "points": "4"
+        },
+        {
+            "name": "test_3",
+            "email": "test_3@test.com",
+            "points": "13"
+        }
+    ]
+}
