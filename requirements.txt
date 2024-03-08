@@ -4,3 +4,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 Werkzeug==1.0.1
+pytest-cov==4.1.0
+coverage==7.4.1
+pytest==8.0.1
+locust==1.6.0
