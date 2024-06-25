@@ -35,3 +35,8 @@ lancer les tests unitaires en local :
 pytest --cov=server --cov-report=html tests/tests_unit_tests/tests_server.py
 google-chrome http://localhost:63342/Gudlft/htmlcov/index.html
 ```
+lancer les tests fonctionnels en local :
+```bash
+pytest --cov=server --cov-report=html tests/tests_functional_tests/tests_functional.py
+google-chrome http://localhost:63342/Gudlft/htmlcov/index.html
+```
