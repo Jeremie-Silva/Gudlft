@@ -37,6 +37,6 @@ google-chrome http://localhost:63342/Gudlft/htmlcov/index.html
 ```
 lancer les tests fonctionnels en local :
 ```bash
-pytest --cov=server --cov-report=html tests/tests_functional_tests/tests_functional.py
+pytest --cov=server --cov-report=html tests/tests_integration_tests/tests_integration.py
 google-chrome http://localhost:63342/Gudlft/htmlcov/index.html
 ```
