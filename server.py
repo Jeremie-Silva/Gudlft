@@ -69,6 +69,12 @@ def purchase_places():
     if date_is_in_paste(competitions[competition_index]["date"]):
         flash("The event is finish")
         return render_template("welcome.html", club=clubs[club_index], competitions=competitions)
+    if needed_places > club_points:
+        flash("You cannot book more places than the points you have.")
+        return render_template("welcome.html", club=clubs[club_index], competitions=competitions)
+    if needed_places > 12:
+        flash("You cannot book more places than 12.")
+        return render_template("welcome.html", club=clubs[club_index], competitions=competitions)
     clubs[club_index]["points"] = str(club_points - needed_places)
     competitions[competition_index]["numberOfPlaces"] = str(current_places - needed_places)
     update_files(COMPETITIONS_FILE, competitions)

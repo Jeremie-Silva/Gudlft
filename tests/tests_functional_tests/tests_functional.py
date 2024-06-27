@@ -106,17 +106,31 @@ def test_show_points(client):
 
 
 def test_purchase_places_valid(client):
-    data = {"club": "test_1", "competition": "competition_1", "places": "18"}
+    data = {"club": "test_1", "competition": "competition_1", "places": "11"}
     response = client.post("/purchasePlaces", data=data)
     assert response.status_code == 200
     assert b"Great-booking complete!" in response.data
 
 
 def test_purchase_places_event_in_past(client):
-    data = {"club": "test_1", "competition": "competition_2", "places": "18"}
+    data = {"club": "test_1", "competition": "competition_2", "places": "11"}
     response = client.post("/purchasePlaces", data=data)
     assert response.status_code == 200
     assert b"The event is finish" in response.data
+
+
+def test_purchase_places_insufficient_points(client):
+    data = {"club": "test_2", "competition": "competition_1", "places": "5"}
+    response = client.post("/purchasePlaces", data=data)
+    assert response.status_code == 200
+    assert b"You cannot book more places than the points you have." in response.data
+
+
+def test_purchase_places_exceeds_limit(client):
+    data = {"club": "test_1", "competition": "competition_1", "places": "13"}
+    response = client.post("/purchasePlaces", data=data)
+    assert response.status_code == 200
+    assert b"You cannot book more places than 12." in response.data
 
 
 def test_logout(client):

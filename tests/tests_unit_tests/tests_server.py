@@ -36,7 +36,7 @@ class ServerTests(TestCase):
                 "date": "2020-10-22 13:30:00",
                 "numberOfPlaces": "13"
             }
-    ]
+        ]
 
     # load_data()
 
@@ -205,6 +205,44 @@ class ServerTests(TestCase):
         self.assertEqual(response.status_code, 200)
         update_files.assert_not_called()
         flash.assert_called_once_with("The event is finish")
+        expected_club = {"name": "test_1", "email": "test_1@test.com", "points": "24"}
+        render_template.assert_called_once_with(
+            "welcome.html", club=expected_club, competitions=self.competitions
+        )
+
+    @patch("server.flash")
+    @patch("server.render_template")
+    @patch("server.update_files")
+    @patch("server.date_is_in_paste")
+    def test_purchase_places_insufficient_points(self, date_is_in_paste, update_files, render_template, flash):
+        render_template.return_value = "HTML"
+        date_is_in_paste.return_value = False
+        server.clubs = self.clubs
+        server.competitions = self.competitions
+        data = {"club": "test_2", "competition": "competition_1", "places": "5"}
+        response = self.client.post("/purchasePlaces", data=data)
+        self.assertEqual(response.status_code, 200)
+        update_files.assert_not_called()
+        flash.assert_called_once_with("You cannot book more places than the points you have.")
+        expected_club = {"name": "test_2", "email": "test_2@test.com", "points": "4"}
+        render_template.assert_called_once_with(
+            "welcome.html", club=expected_club, competitions=self.competitions
+        )
+
+    @patch("server.flash")
+    @patch("server.render_template")
+    @patch("server.update_files")
+    @patch("server.date_is_in_paste")
+    def test_purchase_places_exceeds_limit(self, date_is_in_paste, update_files, render_template, flash):
+        render_template.return_value = "HTML"
+        date_is_in_paste.return_value = False
+        server.clubs = self.clubs
+        server.competitions = self.competitions
+        data = {"club": "test_1", "competition": "competition_1", "places": "13"}
+        response = self.client.post("/purchasePlaces", data=data)
+        self.assertEqual(response.status_code, 200)
+        update_files.assert_not_called()
+        flash.assert_called_once_with("You cannot book more places than 12.")
         expected_club = {"name": "test_1", "email": "test_1@test.com", "points": "24"}
         render_template.assert_called_once_with(
             "welcome.html", club=expected_club, competitions=self.competitions
